@@ -1,8 +1,9 @@
 import {DataTypes} from "sequelize";
 import {db} from "../db";
+import { DeviceModel } from "./DeviceModel";
 
-export const UserModel = db.define('user', {
-    id_user: {
+export const PortModel = db.define('port', {
+    id_port: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -12,17 +13,26 @@ export const UserModel = db.define('user', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    username: {
-        type: DataTypes.STRING,
+    gpio: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true,
     },
-    password: {
-        type:DataTypes.STRING,
+    gpio_input: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+    },
+    topic: {
+        type: DataTypes.STRING,
         allowNull: false,
     },
     status: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     }
+});
+
+DeviceModel.hasMany(PortModel, {
+    constraints: true,
+    foreignKey: 'id_device'
 });

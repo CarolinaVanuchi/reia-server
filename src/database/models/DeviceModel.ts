@@ -1,8 +1,9 @@
 import {DataTypes} from "sequelize";
 import {db} from "../db";
+import { UserModel } from "./UserModel";
 
-export const UserModel = db.define('user', {
-    id_user: {
+export const DeviceModel = db.define('device', {
+    id_device: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -12,12 +13,11 @@ export const UserModel = db.define('user', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    username: {
+    ip: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
     },
-    password: {
+    port: {
         type:DataTypes.STRING,
         allowNull: false,
     },
@@ -25,4 +25,9 @@ export const UserModel = db.define('user', {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     }
+});
+
+UserModel.hasMany(DeviceModel, {
+    constraints: true,
+    foreignKey: 'id_user'
 });

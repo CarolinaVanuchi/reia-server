@@ -1,11 +1,17 @@
 import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
+import { DataSensorModel } from "../database/models/DataSensorModel";
+import { DeviceModel } from "../database/models/DeviceModel";
+import { PortModel } from "../database/models/PortModel";
 import { UserModel } from "../database/models/UserModel";
 import MessagesUtils from "../utls/MessagesUtils";
 
 class UserController {
 
     async findAll(req: Request, res: Request) {
+        const teste = await DeviceModel.findAll(); 
+        const teste2 = await PortModel.findAll(); 
+        const teste3 = await DataSensorModel.findAll(); 
         const users = await UserModel.findAll();
         return users.length > 0? res.status(StatusCodes.OK).json(users) : res.status(StatusCodes.NO_CONTENT).send();
     }
