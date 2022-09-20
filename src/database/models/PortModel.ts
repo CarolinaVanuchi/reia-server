@@ -25,10 +25,6 @@ export const PortModel = db.define('port', {
     topic: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-    status: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
     }
 });
 

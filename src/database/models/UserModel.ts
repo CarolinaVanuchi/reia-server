@@ -20,9 +20,5 @@ export const UserModel = db.define('user', {
     password: {
         type:DataTypes.STRING,
         allowNull: false,
-    },
-    status: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
     }
 });

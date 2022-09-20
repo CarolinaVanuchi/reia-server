@@ -3,6 +3,10 @@ class MessagesUtils {
     static NULL_USERNAME                = "USUÁRIO É OBRIGATÓRIO";
     static NULL_PASSWORD                = "SENHA É OBRIGATÓRIO";
     static NULL_REPT_PASSWORD           = "REPETIR A SENHA É OBRIGATÓRIO";
+
+    static NULL_IP                      = "IP É OBRIGATÓRIO";
+    static NULL_PORT                    = "PORTA É OBRIGATÓRIO";
+
     static EQUAL_PASSWORD               = "SENHAS DEVEM SER IGUAIS";
     static EQUAL_USER                   = "JÁ EXISTE USUÁRIO CADASTRADO";
     static EXISTS_USER_PASSWORD         = "USUÁRIO/SENHA NÃO EXISTEM";

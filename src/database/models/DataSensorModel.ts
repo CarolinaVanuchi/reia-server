@@ -22,10 +22,6 @@ export const DataSensorModel = db.define('data_sensor', {
         type:DataTypes.TIME,
         allowNull: false,
         defaultValue: DataTypes.NOW
-    },
-    status: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
     }
 });
 
