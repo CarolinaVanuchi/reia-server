@@ -13,13 +13,8 @@ export const DataSensorModel = db.define('data_sensor', {
         type: DataTypes.DOUBLE,
         allowNull: false,
     },
-    data_insert: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
-    },
-    time_insert: {
-        type:DataTypes.TIME,
+    data_time: {
+        type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW
     }

@@ -25,7 +25,7 @@ class DeviceController {
         }
     }
 
-    async findAll(req: Request, res: Response) {
+    async findByUser(req: Request, res: Response) {
         const idUser = req.params.idUser;
         const devices = await DeviceModel.findAll( { where: {id_user: idUser}})
         return devices.length > 0? res.status(StatusCodes.OK).json(devices) : res.status(StatusCodes.NO_CONTENT).send();

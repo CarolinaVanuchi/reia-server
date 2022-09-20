@@ -7,6 +7,10 @@ class MessagesUtils {
     static NULL_IP                      = "IP É OBRIGATÓRIO";
     static NULL_PORT                    = "PORTA É OBRIGATÓRIO";
 
+    static NULL_GPIO                    = "PORTA É OBRIGATÓRIO";
+    static NULL_GPIO_INPUT              = "ESCOLHER SE É ENTRADA OU SAÍDA É OBRIGATÓRIO";
+    static NULL_TOPIC                   = "TÓPICO É OBRIGATÓRIO";
+
     static EQUAL_PASSWORD               = "SENHAS DEVEM SER IGUAIS";
     static EQUAL_USER                   = "JÁ EXISTE USUÁRIO CADASTRADO";
     static EXISTS_USER_PASSWORD         = "USUÁRIO/SENHA NÃO EXISTEM";
