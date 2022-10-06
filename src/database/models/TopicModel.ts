@@ -2,8 +2,8 @@ import {DataTypes} from "sequelize";
 import {db} from "../db";
 import { DeviceModel } from "./DeviceModel";
 
-export const PortModel = db.define('port', {
-    id_port: {
+export const TopicModel = db.define('topic', {
+    idTopic: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -17,7 +17,7 @@ export const PortModel = db.define('port', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    gpio_input: {
+    gpioInput: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true,
@@ -26,9 +26,13 @@ export const PortModel = db.define('port', {
         type: DataTypes.STRING,
         allowNull: false,
     }
+}, {
+    underscored: true    
 });
 
-DeviceModel.hasMany(PortModel, {
+DeviceModel.hasMany(TopicModel, {
     constraints: true,
-    foreignKey: 'id_device'
+    foreignKey: 'idDevice',
+    onDelete: 'CASCADE',
+    hooks: true
 });

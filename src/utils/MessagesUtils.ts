@@ -8,7 +8,7 @@ class MessagesUtils {
     static NULL_PORT                    = "PORTA É OBRIGATÓRIO";
 
     static NULL_GPIO                    = "PORTA É OBRIGATÓRIO";
-    static NULL_GPIO_INPUT              = "ESCOLHER SE É ENTRADA OU SAÍDA É OBRIGATÓRIO";
+    static NULL_gpioInput              = "ESCOLHER SE É ENTRADA OU SAÍDA É OBRIGATÓRIO";
     static NULL_TOPIC                   = "TÓPICO É OBRIGATÓRIO";
 
     static EQUAL_PASSWORD               = "SENHAS DEVEM SER IGUAIS";

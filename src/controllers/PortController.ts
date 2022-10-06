@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import MessagesUtils from "../utls/MessagesUtils";
-import { PortModel } from "../database/models/PortModel";
+import MessagesUtils from "../utils/MessagesUtils";
+import { TopicModel } from "../database/models/TopicModel";
 
 class PortController {
    
@@ -16,15 +16,15 @@ class PortController {
 
             if(!name)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
             if(!gpio)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO);
-            if(!gpioInput)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO_INPUT);
+            if(!gpioInput)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_gpioInput);
             if(!topic)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TOPIC);
             
-            const port = await PortModel.create({ 
+            const port = await TopicModel.create({ 
                 name: name, 
                 gpio: gpio,
-                gpio_input: gpioInput,
+                gpioInput: gpioInput,
                 topic: topic,
-                id_device: device
+                idDevice: device
             });
 
             return res.status(StatusCodes.CREATED).json(port);
@@ -36,7 +36,7 @@ class PortController {
 
     async findByDevice(req: Request, res: Response) {
         const idDevice = req.params.idDevice;
-        const ports = await PortModel.findAll( { where: {id_device: idDevice}})
+        const ports = await TopicModel.findAll( { where: {idDevice: idDevice}})
         return ports.length > 0? res.status(StatusCodes.OK).json(ports) : res.status(StatusCodes.NO_CONTENT).send();
     }
 
@@ -53,16 +53,16 @@ class PortController {
 
             if(!name)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
             if(!gpio)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO);
-            if(!gpioInput)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO_INPUT);
+            if(!gpioInput)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_gpioInput);
             if(!topic)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TOPIC);
             
-            const port = await PortModel.update({ 
+            const port = await TopicModel.update({ 
                 name: name, 
                 gpio: gpio,
-                gpio_input: gpioInput,
+                gpioInput: gpioInput,
                 topic: topic,
-                id_device: device
-             }, { where: { id_port: id } });
+                idDevice: device
+             }, { where: { idTopic: id } });
 
             return res.status(StatusCodes.OK).json(port);
 
@@ -73,7 +73,7 @@ class PortController {
 
     async delete(req: Request, res: Response) {
         const id = req.params.id;
-        await PortModel.destroy( { where: {id_port: id}});
+        await TopicModel.destroy( { where: {idTopic: id}});
         try {
             res.status(StatusCodes.OK).send();
         } catch(error) {

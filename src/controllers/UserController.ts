@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { UserModel } from "../database/models/UserModel";
-import MessagesUtils from "../utls/MessagesUtils";
+import MessagesUtils from "../utils/MessagesUtils";
 import bcrypt from "bcrypt";
 class UserController {
     
@@ -49,7 +49,7 @@ class UserController {
 
         await UserModel.update({ name, username, password }, {
             where: {
-                id_user: id,
+                idUser: id,
             }
         });
 
@@ -60,7 +60,7 @@ class UserController {
         const {id} = req.params;
         await UserModel.destroy({
             where: {
-                id_user: id,
+                idUser: id,
             }
         });
         return res.status(StatusCodes.NO_CONTENT).send();

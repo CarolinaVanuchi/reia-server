@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import MessagesUtils from "../utls/MessagesUtils";
+import MessagesUtils from "../utils/MessagesUtils";
 import { DeviceModel } from "../database/models/DeviceModel";
 
 class DeviceController {
@@ -17,7 +17,7 @@ class DeviceController {
             if(!ip)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
             if(!port)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
             
-            const device = await DeviceModel.create({ name, ip, port, id_user: user });
+            const device = await DeviceModel.create({ name, ip, port, idUser: user });
             return res.status(StatusCodes.CREATED).json(device);
 
         } catch(error) {
@@ -27,7 +27,7 @@ class DeviceController {
 
     async findByUser(req: Request, res: Response) {
         const idUser = req.params.idUser;
-        const devices = await DeviceModel.findAll( { where: {id_user: idUser}})
+        const devices = await DeviceModel.findAll( { where: {idUser: idUser}})
         return devices.length > 0? res.status(StatusCodes.OK).json(devices) : res.status(StatusCodes.NO_CONTENT).send();
     }
 
@@ -43,7 +43,7 @@ class DeviceController {
             if(!ip)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
             if(!port)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
             
-            const device = await DeviceModel.update({ name, ip, port }, { where: { id_device: id } });
+            const device = await DeviceModel.update({ name, ip, port }, { where: { idDevice: id } });
 
             return res.status(StatusCodes.OK).json(device);
 
@@ -54,7 +54,7 @@ class DeviceController {
 
     async delete(req: Request, res: Response) {
         const id = req.params.id;
-        await DeviceModel.destroy( { where: {id_device: id}});
+        await DeviceModel.destroy( { where: {idDevice: id}});
         try {
             res.status(StatusCodes.OK).send();
         } catch(error) {

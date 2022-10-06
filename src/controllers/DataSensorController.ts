@@ -8,12 +8,12 @@ class DataSensorController {
 
         try {
             const value      = req.body.value;
-            const port       = req.body.port;
+            const topic      = req.body.topic;
 
             
             const dataSensor = await DataSensorModel.create({ 
                 value: value, 
-                id_port: port
+                idTopic: topic
             });
 
             return res.status(StatusCodes.CREATED).json(dataSensor);
@@ -25,7 +25,7 @@ class DataSensorController {
 
     async findByPort(req: Request, res: Response) {
         const idPort = req.params.idPort;
-        const values = await DataSensorModel.findAll( { where: {id_port: idPort}})
+        const values = await DataSensorModel.findAll( { where: {idTopic: idPort}})
         return values.length > 0? res.status(StatusCodes.OK).json(values) : res.status(StatusCodes.NO_CONTENT).send();
     }
 

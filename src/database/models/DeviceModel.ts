@@ -3,7 +3,7 @@ import {db} from "../db";
 import { UserModel } from "./UserModel";
 
 export const DeviceModel = db.define('device', {
-    id_device: {
+    idDevice: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -21,9 +21,13 @@ export const DeviceModel = db.define('device', {
         type:DataTypes.STRING,
         allowNull: false,
     }
+}, {
+    underscored: true    
 });
 
 UserModel.hasMany(DeviceModel, {
     constraints: true,
-    foreignKey: 'id_user'
+    foreignKey: 'idUser',
+    onDelete: 'CASCADE',
+    hooks: true
 });

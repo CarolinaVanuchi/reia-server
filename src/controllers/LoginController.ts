@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import { UserModel } from "../database/models/UserModel";
-import MessagesUtils from "../utls/MessagesUtils";
+import MessagesUtils from "../utils/MessagesUtils";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -23,7 +23,7 @@ class LoginController {
         
         const secret = process.env.SERET;
         const token = jwt.sign(
-            { id: userExist['id_user'] },
+            { id: userExist['idUser'] },
                 secret, { expiresIn: '1d'},
             );
         

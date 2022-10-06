@@ -1,9 +1,9 @@
 import {DataTypes} from "sequelize";
 import {db} from "../db";
-import { PortModel } from "./PortModel";
+import { TopicModel } from "./TopicModel";
 
 export const DataSensorModel = db.define('data_sensor', {
-    id_data_sensor: {
+    idDataSensor: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
@@ -13,14 +13,18 @@ export const DataSensorModel = db.define('data_sensor', {
         type: DataTypes.DOUBLE,
         allowNull: false,
     },
-    data_time: {
+    dataTime: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW
     }
+}, {
+    underscored: true    
 });
 
-PortModel.hasMany(DataSensorModel, {
+TopicModel.hasMany(DataSensorModel, {
     constraints: true,
-    foreignKey: 'id_port'
+    foreignKey: 'idTopic',
+    onDelete: 'CASCADE',
+    hooks: true
 });
