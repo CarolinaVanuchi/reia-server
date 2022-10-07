@@ -15,7 +15,6 @@ app.get('/', (req, res) => {
 app.listen(80, async () => {
     await db.sync();
     console.log(`Server running ${process.env.PROJECT_NAME}`);
-
     let mqtt = new MqttSubscriber();
   
 });

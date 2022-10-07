@@ -1,8 +1,12 @@
 import mqtt, { MqttClient } from "mqtt";
+import Decrypt from "../crypt/Decrypt";
+import {encode, decode} from"js-base64"
+
 const tls = require('node:tls');
 const fs = require('node:fs');
 
 export default class MqttSubscriber {
+
     client: MqttClient;
     topic1: string;
 
@@ -36,21 +40,26 @@ export default class MqttSubscriber {
     }
 
     onError(): void {
-        this.client.on("error", function(err) { 
-            console.log(err) 
+        this.client.on("error", function(err) {
+            console.log("onError", err); 
         }) 
     }
 
     onSubscriber():void {
-        this.client.subscribe("esp1/volt2", function (message) {
-            console.log(message);
+        this.client.subscribe("esp1/volt", function (message) {
+            console.log("onSubscriber", message);
         })
     }
 
     onReceive(): void {
         this.client.on("message", function(topic, message) {
             console.log(topic);
-            console.log(message.toString());
+            if (topic == "esp1/volt") {
+                let decrypt = new Decrypt();
+                let res = decrypt.decrypt(message.toString());
+                // let res = decode(message.toString());
+                console.log(res);
+            }
         })
     }
 
