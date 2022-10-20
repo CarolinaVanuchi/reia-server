@@ -1,9 +1,8 @@
 import * as fs from "fs";
-import "node-rsa"
 import NodeRSA from "node-rsa";
 export default class Decrypt {
     
-    key: NodeRSA;
+    private key: NodeRSA;
 
     constructor() {
         
@@ -25,10 +24,6 @@ export default class Decrypt {
     }
 
     decrypt(data: string): string{
-        console.log("---------------------- DECRYPT -------------------------");
-        console.log(data);
-        
-        let de: string = this.key.decrypt(data, "ascii");
-        return de;
+        return this.key.decrypt(data, "ascii");
     }
 }

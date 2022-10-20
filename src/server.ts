@@ -1,7 +1,7 @@
 import express, {json} from "express";
 import { db } from "./database/db";
 import { router } from "./routes/routes";
-import MqttSubscriber from "./mqtt/MqttSubscriber";
+import MqttServer from "./mqtt/MqttServer";
 
 const app = express();
 app.use(json());
@@ -15,6 +15,6 @@ app.get('/', (req, res) => {
 app.listen(80, async () => {
     await db.sync();
     console.log(`Server running ${process.env.PROJECT_NAME}`);
-    let mqtt = new MqttSubscriber();
+    let mqtt = new MqttServer();
   
 });
