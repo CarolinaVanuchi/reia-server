@@ -6,6 +6,7 @@ class MessagesUtils {
 
     static NULL_IP                      = "IP É OBRIGATÓRIO";
     static NULL_PORT                    = "PORTA É OBRIGATÓRIO";
+    static NULL_SAMPLING                = "AMOSTRAGEM É OBRIGATÓRIO";
 
     static NULL_GPIO                    = "PORTA É OBRIGATÓRIO";
     static NULL_gpioInput              = "ESCOLHER SE É ENTRADA OU SAÍDA É OBRIGATÓRIO";

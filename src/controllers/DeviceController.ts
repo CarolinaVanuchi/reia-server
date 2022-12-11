@@ -8,16 +8,18 @@ class DeviceController {
     async create(req: Request, res: Response) {
 
         try {
-            const name    = req.body.name;
-            const ip      = req.body.ip;
-            const port    = req.body.port;
-            const user    = req.body.user;
+            const name          = req.body.name;
+            const ip            = req.body.ip;
+            const port          = req.body.port;
+            const user          = req.body.user;
+            const sampling      = req.body.sampling;
 
             if(!name)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
             if(!ip)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
             if(!port)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
+            if(!sampling)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_SAMPLING);
             
-            const device = await DeviceModel.create({ name, ip, port, idUser: user });
+            const device = await DeviceModel.create({ name, ip, port, idUser: user, sampling });
             return res.status(StatusCodes.CREATED).json(device);
 
         } catch(error) {
@@ -34,16 +36,18 @@ class DeviceController {
     async update(req: Request, res: Response) {
 
         try {
-            const id      = req.params.id;
-            const name    = req.body.name;
-            const ip      = req.body.ip;
-            const port    = req.body.port;
+            const id            = req.params.id;
+            const name          = req.body.name;
+            const ip            = req.body.ip;
+            const port          = req.body.port;
+            const sampling      = req.body.sampling;
 
             if(!name)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
             if(!ip)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
             if(!port)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
+            if(!sampling)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_SAMPLING);
             
-            const device = await DeviceModel.update({ name, ip, port }, { where: { idDevice: id } });
+            const device = await DeviceModel.update({ name, ip, port, sampling }, { where: { idDevice: id } });
 
             return res.status(StatusCodes.OK).json(device);
 

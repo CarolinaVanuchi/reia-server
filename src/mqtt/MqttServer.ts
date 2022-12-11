@@ -2,6 +2,7 @@ import mqtt, { MqttClient, QoS } from "mqtt";
 import Decrypt from "../crypt/Decrypt";
 import * as fs from "fs";
 import Encrypt from "../crypt/Encrypt";
+import { TopicName } from "../enum/TopicNameEnum";
 
 export default class MqttServer {
 
@@ -11,7 +12,7 @@ export default class MqttServer {
     constructor() {
         this.client = mqtt.connect({
             connectTimeout: 40000,
-            clientId: "service_nodejs",
+            clientId: "0001",
             host: process.env.MQTT_HOST,
             port: Number(process.env.MQTT_PORT),
             protocol: "mqtts",
@@ -48,30 +49,66 @@ export default class MqttServer {
             console.log("onError", err);
         })
     }
-    
+
 
     onPublish(): void {
         const encrypt = new Encrypt();
-        const enc = encrypt.encrypt("10");
+        const enc = encrypt.encrypt("10000000");
         console.log(enc);
-        this.client.publish("webserver/sampling", enc, { qos: 2 }, function (error, call) {
+        this.client.publish("webserver/sampling", enc, { qos: this.qos }, function (error, call) {
             if (error) console.log(error);
             if (call) console.log(call);
         });
     }
 
     onSubscriber(): void {
-        this.client.subscribe("esp1/volt", { qos: this.qos }, function (message) {
+        this.client.subscribe([TopicName.gpio32, TopicName.gpio33, TopicName.gpio34, TopicName.gpio35, TopicName.gpio36, TopicName.gpio37, TopicName.gpio38, TopicName.gpio39], { qos: this.qos }, function (message) {
             console.log("onSubscriber", message);
-        })
+        });
     }
 
     onReceive(): void {
         this.client.on("message", function (topic, message) {
-            if (topic == "esp1/volt") {
-               
+
+            if (topic == TopicName.gpio36) {
                 const decrypt = new Decrypt();
                 const res = decrypt.decrypt(message.toString());
+                console.log("36");
+                console.log(res);
+            }
+
+            if (topic == TopicName.gpio39) {
+                const decrypt = new Decrypt();
+                const res = decrypt.decrypt(message.toString());
+                console.log("39");
+                console.log(res);
+            }
+
+            if (topic == TopicName.gpio34) {
+                const decrypt = new Decrypt();
+                const res = decrypt.decrypt(message.toString());
+                console.log("34");
+                console.log(res);
+            }
+
+            if (topic == TopicName.gpio35) {
+                const decrypt = new Decrypt();
+                const res = decrypt.decrypt(message.toString());
+                console.log("35");
+                console.log(res);
+            }
+
+            if (topic == TopicName.gpio32) {
+                const decrypt = new Decrypt();
+                const res = decrypt.decrypt(message.toString());
+                console.log("32");
+                console.log(res);
+            }
+
+            if (topic == TopicName.gpio33) {
+                const decrypt = new Decrypt();
+                const res = decrypt.decrypt(message.toString());
+                console.log("33");
                 console.log(res);
             }
         });
