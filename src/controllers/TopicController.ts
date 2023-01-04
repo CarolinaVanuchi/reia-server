@@ -3,28 +3,40 @@ import { StatusCodes } from "http-status-codes";
 import MessagesUtils from "../utils/MessagesUtils";
 import { TopicModel } from "../database/models/TopicModel";
 
-class PortController {
+class TopicController {
    
     async create(req: Request, res: Response) {
 
         try {
-            const name      = req.body.name;
-            const gpio      = req.body.gpio;
-            const gpioInput = req.body.gpioInput;
-            const topic     = req.body.topic;
-            const device    = req.body.device;
+            const name              = req.body.name;
+            const gpio              = req.body.gpio;
+            const gpioInput         = req.body.gpioInput;
+            const topic             = req.body.topic;
+            const device            = req.body.device;
+            const typeData          = req.body.typeData;
+            const minValueData      = req.body.minValueData;
+            const maxValueData      = req.body.maxValueData;
+            const typeOutput        = req.body.typeOutput;
+            const minOutput         = req.body.minOutput;
+            const maxOutput         = req.body.maxOutput;
 
-            if(!name)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
-            if(!gpio)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO);
-            if(!gpioInput)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_gpioInput);
-            if(!topic)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TOPIC);
+            if(!name)               return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
+            if(!gpio)               return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO);
+            if(!gpioInput)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO_INPUT);
+            if(!topic)              return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TOPIC);
+            if(!typeData)           return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TYPE_DATA);
+            if(!minValueData)       return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MIN_DATA);
+            if(!maxValueData)       return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MAX_DATA);
+            if(!typeOutput)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TYPE_OUTPUT);
+            if(!minOutput)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MIN_OUTPUT);
+            if(!maxOutput)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MAX_OUTPUT);
             
             const port = await TopicModel.create({ 
                 name: name, 
                 gpio: gpio,
                 gpioInput: gpioInput,
                 topic: topic,
-                idDevice: device
+                idDevice: device,
             });
 
             return res.status(StatusCodes.CREATED).json(port);
@@ -53,7 +65,7 @@ class PortController {
 
             if(!name)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
             if(!gpio)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO);
-            if(!gpioInput)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_gpioInput);
+            if(!gpioInput)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO_INPUT);
             if(!topic)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TOPIC);
             
             const port = await TopicModel.update({ 
@@ -82,4 +94,4 @@ class PortController {
     }
 }
 
-export default new PortController();
+export default new TopicController();

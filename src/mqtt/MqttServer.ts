@@ -76,41 +76,6 @@ export default class MqttServer {
                 console.log("36");
                 console.log(res);
             }
-
-            if (topic == TopicName.gpio39) {
-                const decrypt = new Decrypt();
-                const res = decrypt.decrypt(message.toString());
-                console.log("39");
-                console.log(res);
-            }
-
-            if (topic == TopicName.gpio34) {
-                const decrypt = new Decrypt();
-                const res = decrypt.decrypt(message.toString());
-                console.log("34");
-                console.log(res);
-            }
-
-            if (topic == TopicName.gpio35) {
-                const decrypt = new Decrypt();
-                const res = decrypt.decrypt(message.toString());
-                console.log("35");
-                console.log(res);
-            }
-
-            if (topic == TopicName.gpio32) {
-                const decrypt = new Decrypt();
-                const res = decrypt.decrypt(message.toString());
-                console.log("32");
-                console.log(res);
-            }
-
-            if (topic == TopicName.gpio33) {
-                const decrypt = new Decrypt();
-                const res = decrypt.decrypt(message.toString());
-                console.log("33");
-                console.log(res);
-            }
         });
     }
 

@@ -34,7 +34,7 @@ class UserController {
         }
     }
     
-    async update(req: Request, res: Request) {
+    async update(req: Request, res: Response) {
         const  id       = req.params.id;
         const name      = req.body.name;
         const username  = req.body.username;
@@ -56,7 +56,7 @@ class UserController {
         return res.status(StatusCodes.NO_CONTENT).send();
     }
 
-    async delete(req: Request, res: Request) {
+    async delete(req: Request, res: Response) {
         const {id} = req.params;
         await UserModel.destroy({
             where: {

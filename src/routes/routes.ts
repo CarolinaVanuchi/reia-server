@@ -2,7 +2,7 @@ import express from "express";
 import UserController from "../controllers/UserController";
 import LoginController from "../controllers/LoginController";
 import DeviceController from "../controllers/DeviceController";
-import PortController from "../controllers/PortController";
+import TopicController from "../controllers/TopicController";
 import DataSensorControlller from "../controllers/DataSensorController";
 
 const router = express.Router();
@@ -20,10 +20,10 @@ router.get("/devices/:idUser", LoginController.authMiddleware, DeviceController.
 router.delete("/devices/:id", LoginController.authMiddleware, DeviceController.delete);
 router.put("/devices/:id", LoginController.authMiddleware, DeviceController.update);
 
-router.post("/port", LoginController.authMiddleware, PortController.create);
-router.get("/port/:idDevice", LoginController.authMiddleware, PortController.findByDevice);
-router.delete("/port/:id", LoginController.authMiddleware, PortController.delete);
-router.put("/port/:id", LoginController.authMiddleware, PortController.update);
+router.post("/port", LoginController.authMiddleware, TopicController.create);
+router.get("/port/:idDevice", LoginController.authMiddleware, TopicController.findByDevice);
+router.delete("/port/:id", LoginController.authMiddleware, TopicController.delete);
+router.put("/port/:id", LoginController.authMiddleware, TopicController.update);
 
 router.post("/data", LoginController.authMiddleware, DataSensorControlller.create);
 router.get("/data/:idPort", LoginController.authMiddleware, DataSensorControlller.findByPort);

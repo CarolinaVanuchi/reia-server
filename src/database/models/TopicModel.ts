@@ -25,6 +25,31 @@ export const TopicModel = db.define('topic', {
     topic: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique:true,
+    },
+    typeData: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    minValueData: {
+        type: DataTypes.DOUBLE,
+        allowNull: false,
+    },
+    maxValueData: {
+        type: DataTypes.DOUBLE,
+        allowNull: false,
+    },
+    typeOutput: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    minOutput: {
+        type: DataTypes.DOUBLE,
+        allowNull: false,
+    },
+    maxOutput: {
+        type: DataTypes.DOUBLE,
+        allowNull: false,
     }
 }, {
     underscored: true    
