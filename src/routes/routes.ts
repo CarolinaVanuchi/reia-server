@@ -10,10 +10,17 @@ const router = express.Router();
 router.post("/auth/login", LoginController.login);
 router.get("/auth/login/:id", LoginController.authMiddleware, LoginController.returnInfoUser);
 
-router.post("/create", UserController.create);
-router.post("/users", LoginController.authMiddleware, UserController.create);
-router.put("/users/:id", LoginController.authMiddleware, UserController.update);
-router.delete("/users/:id", LoginController.authMiddleware, UserController.delete);
+router.post("/users", UserController.create);
+router.put("/users/:id", UserController.update);
+router.delete("/users/:id", UserController.delete);
+router.get("/users", UserController.findAll);
+router.get("/users/:id", UserController.findOne);
+
+// router.post("/users", LoginController.authMiddleware, UserController.create);
+// router.put("/users/:id", LoginController.authMiddleware, UserController.update);
+// router.delete("/users/:id", LoginController.authMiddleware, UserController.delete);
+// router.get("/users", LoginController.authMiddleware, UserController.findAll);
+// router.get("/users", LoginController.authMiddleware, UserController.findAll);
 
 router.post("/devices", LoginController.authMiddleware, DeviceController.create);
 router.get("/devices/:idUser", LoginController.authMiddleware, DeviceController.findByUser);

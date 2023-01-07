@@ -12,22 +12,22 @@ class LoginController {
         const username      = req.body.username;
         const pass          = req.body.password;
 
-        if(!username)       return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_USERNAME);
-        if(!pass)           return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PASSWORD);
+        if(!username)       return res.status(StatusCodes.NOT_ACCEPTABLE).json({msg: MessagesUtils.NULL_USERNAME});
+        if(!pass)           return res.status(StatusCodes.NOT_ACCEPTABLE).json({msg: MessagesUtils.NULL_PASSWORD});
 
         const userExist = await UserModel.findOne({ where: { username: username } });
-        if (!userExist) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.EXISTS_USER_PASSWORD);                
+        if (!userExist) return res.status(StatusCodes.NOT_ACCEPTABLE).json({msg: MessagesUtils.EXISTS_USER_PASSWORD});                
      
         const checkPassword = await bcrypt.compare(pass, userExist['password'])
-        if (!checkPassword) return res.status(StatusCodes.NOT_FOUND).json(MessagesUtils.EXISTS_USER_PASSWORD);
+        if (!checkPassword) return res.status(StatusCodes.NOT_ACCEPTABLE).json({msg: MessagesUtils.EXISTS_USER_PASSWORD});
         
         const secret = process.env.SERET;
         const token = jwt.sign(
             { id: userExist['idUser'] },
                 secret, { expiresIn: '1d'},
             );
-        
-        return res.status(StatusCodes.CREATED).json({msg: MessagesUtils.LOGIN_OK, token});
+        const id = await UserModel.findOne({ where: { username: username } });
+        return res.status(StatusCodes.OK).json({token: token, id: id['idUser']});
     }
 
 
