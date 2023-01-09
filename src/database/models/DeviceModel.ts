@@ -21,17 +21,10 @@ export const DeviceModel = db.define('device', {
         type:DataTypes.STRING,
         allowNull: false,
     },
-    sampling: {
+    sample: {
         type: DataTypes.INTEGER,
         allowNull: false,
     }
 }, {
     underscored: true    
-});
-
-UserModel.hasMany(DeviceModel, {
-    constraints: true,
-    foreignKey: 'idUser',
-    onDelete: 'CASCADE',
-    hooks: true
 });

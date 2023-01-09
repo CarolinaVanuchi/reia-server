@@ -4,66 +4,74 @@ import MessagesUtils from "../utils/MessagesUtils";
 import { DeviceModel } from "../database/models/DeviceModel";
 
 class DeviceController {
-   
+
     async create(req: Request, res: Response) {
 
         try {
-            const name          = req.body.name;
-            const ip            = req.body.ip;
-            const port          = req.body.port;
-            const user          = req.body.user;
-            const sampling      = req.body.sampling;
+            const name = req.body.name;
+            const ip = req.body.ip;
+            const port = req.body.port;
+            const sample = req.body.sample;
 
-            if(!name)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
-            if(!ip)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
-            if(!port)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
-            if(!sampling)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_SAMPLING);
-            
-            const device = await DeviceModel.create({ name, ip, port, idUser: user, sampling });
+            if (!name) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
+            if (!ip) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
+            if (!port) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
+            if (!sample) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_SAMPLING);
+
+            const device = await DeviceModel.create({ name, ip, port, sample });
             return res.status(StatusCodes.CREATED).json(device);
 
-        } catch(error) {
+        } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
         }
     }
 
-    async findByUser(req: Request, res: Response) {
+    async findAll(req: Request, res: Response) {
         const idUser = req.params.idUser;
-        const devices = await DeviceModel.findAll( { where: {idUser: idUser}})
-        return devices.length > 0? res.status(StatusCodes.OK).json(devices) : res.status(StatusCodes.NO_CONTENT).send();
+        const devices = await DeviceModel.findAll()
+        return devices.length > 0 ? res.status(StatusCodes.OK).json(devices) : res.status(StatusCodes.NO_CONTENT).send();
     }
 
     async update(req: Request, res: Response) {
 
         try {
-            const id            = req.params.id;
-            const name          = req.body.name;
-            const ip            = req.body.ip;
-            const port          = req.body.port;
-            const sampling      = req.body.sampling;
+            const id = req.params.id;
+            const name = req.body.name;
+            const ip = req.body.ip;
+            const port = req.body.port;
+            const sample = req.body.sample;
 
-            if(!name)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
-            if(!ip)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
-            if(!port)        return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
-            if(!sampling)    return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_SAMPLING);
-            
-            const device = await DeviceModel.update({ name, ip, port, sampling }, { where: { idDevice: id } });
+            if (!name) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
+            if (!ip) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
+            if (!port) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
+            if (!sample) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_SAMPLING);
+
+            const device = await DeviceModel.update({ name, ip, port, sample }, { where: { idDevice: id } });
 
             return res.status(StatusCodes.OK).json(device);
 
-        } catch(error) {
+        } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
         }
     }
 
     async delete(req: Request, res: Response) {
         const id = req.params.id;
-        await DeviceModel.destroy( { where: {idDevice: id}});
+        await DeviceModel.destroy({ where: { idDevice: id } });
         try {
             res.status(StatusCodes.OK).send();
-        } catch(error) {
+        } catch (error) {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
         }
+    }
+
+    async findOne(req: Request, res: Response) {
+        const { id } = req.params;
+        const device = await DeviceModel.findByPk(id, {
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
+        });
+        if (!device) return res.status(StatusCodes.NOT_FOUND).json(MessagesUtils.NOT_USER);
+        return res.status(StatusCodes.OK).json(device);
     }
 }
 
