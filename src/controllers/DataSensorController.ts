@@ -34,7 +34,8 @@ class DataSensorController {
         const values = await TopicModel.findAll({
             include: [{
                 model: DataSensorModel,
-                where: { "dataTime": { [Op.between]: [dataBegin, dataEnd] } }
+                where: { "dataTime": { [Op.between]: [dataBegin, dataEnd] } },
+                order: ["dataTime", "DESC"]
             }],
 
             where: { idDevice: id }
