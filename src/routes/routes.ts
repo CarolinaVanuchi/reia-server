@@ -32,7 +32,7 @@ router.get("/topic", LoginController.authMiddleware, TopicController.findAll);
 router.get("/topic/:id", LoginController.authMiddleware, TopicController.findOne);
 
 router.post("/data", LoginController.authMiddleware, DataSensorControlller.create);
-router.get("/data/device/:idDevice", LoginController.authMiddleware, DataSensorControlller.findByDevice);
+router.get("/data/device/:idDevice/:dataBegin/:dataEnd", LoginController.authMiddleware, DataSensorControlller.findByDevice);
 router.get("/data/topic/:idTopic", LoginController.authMiddleware, DataSensorControlller.findByTopic);
 
 export { router };
