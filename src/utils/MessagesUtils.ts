@@ -21,6 +21,7 @@ class MessagesUtils {
 
     static EQUAL_PASSWORD               = "SENHAS DEVEM SER IGUAIS";
     static EQUAL_USER                   = "JÁ EXISTE USUÁRIO CADASTRADO";
+    static EQUAL_TOPIC                  = "TÓPICO JÁ CADASTRADO";
     static EXISTS_USER_PASSWORD         = "USUÁRIO/SENHA NÃO EXISTEM";
     static LOGIN_OK                     = "LOGIN REALIZADO, TOKEN:";
     static NOT_USER                     = "NÃO EXISTE O USUÁRIO";

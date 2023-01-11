@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { DataSensorModel } from "../database/models/DataSensorModel";
+import { TopicModel } from "../database/models/TopicModel";
+import { DeviceModel } from "../database/models/DeviceModel";
 
 class DataSensorController {
    
@@ -23,9 +25,16 @@ class DataSensorController {
         }
     }
 
-    async findByPort(req: Request, res: Response) {
-        const idPort = req.params.idPort;
-        const values = await DataSensorModel.findAll( { where: {idTopic: idPort}})
+    async findByDevice(req: Request, res: Response) {
+        const id = req.params.idDevice;
+        const values = await DeviceModel.findAll( {include: [{model: TopicModel, include: [{model: DataSensorModel}]}], where: {idDevice: id} })
+        return values.length > 0? res.status(StatusCodes.OK).json(values) : res.status(StatusCodes.NO_CONTENT).send();
+    }
+
+    async findByTopic(req: Request, res: Response) {
+        const id = req.params.idTopic;
+        const values = await DataSensorModel.findAll( {order:[["idDataSensor", "DESC"]], where: {idTopic: id},  limit: 15})
+       
         return values.length > 0? res.status(StatusCodes.OK).json(values) : res.status(StatusCodes.NO_CONTENT).send();
     }
 

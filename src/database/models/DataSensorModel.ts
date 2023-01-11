@@ -1,6 +1,7 @@
-import {DataTypes} from "sequelize";
-import {db} from "../db";
+import { DataTypes } from "sequelize";
+import { db } from "../db";
 import { TopicModel } from "./TopicModel";
+import moment from 'moment';
 
 export const DataSensorModel = db.define('data_sensor', {
     idDataSensor: {
@@ -16,10 +17,13 @@ export const DataSensorModel = db.define('data_sensor', {
     dataTime: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW
+        defaultValue: DataTypes.NOW,
+        get() {
+            return moment(this.getDataValue('dataTime')).format('DD/MM/YYYY h:mm:ss');
+        }
     }
 }, {
-    underscored: true    
+    underscored: true
 });
 
 TopicModel.hasMany(DataSensorModel, {

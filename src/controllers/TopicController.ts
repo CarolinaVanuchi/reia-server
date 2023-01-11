@@ -25,18 +25,27 @@ class TopicController {
             if(!gpioInput)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO_INPUT);
             if(!topic)              return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TOPIC);
             if(!typeData)           return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TYPE_DATA);
-            if(!minValueData)       return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MIN_DATA);
-            if(!maxValueData)       return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MAX_DATA);
+            if(minValueData == null)       return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MIN_DATA);
+            if(maxValueData == null)       return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MAX_DATA);
             if(!typeOutput)         return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TYPE_OUTPUT);
-            if(!minOutput)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MIN_OUTPUT);
-            if(!maxOutput)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MAX_OUTPUT);
-            
+            if(minOutput == null)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MIN_OUTPUT);
+            if(maxOutput == null)          return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MAX_OUTPUT);
+           
+            const userExist = await TopicModel.findOne({ where: { topic: topic } });
+            if (userExist) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.EQUAL_TOPIC);
+
             const port = await TopicModel.create({ 
                 name: name, 
                 gpio: gpio,
                 gpioInput: gpioInput,
                 topic: topic,
-                idDevice: device,
+                typeData: typeData,
+                minValueData: minValueData,
+                maxValueData: maxValueData,
+                typeOutput: typeOutput,
+                minOutput: minOutput,
+                maxOutput: maxOutput,
+                idDevice: device
             });
 
             return res.status(StatusCodes.CREATED).json(port);
@@ -48,8 +57,19 @@ class TopicController {
 
     async findByDevice(req: Request, res: Response) {
         const idDevice = req.params.idDevice;
-        const ports = await TopicModel.findAll( { where: {idDevice: idDevice}})
-        return ports.length > 0? res.status(StatusCodes.OK).json(ports) : res.status(StatusCodes.NO_CONTENT).send();
+        const topics = await TopicModel.findAll( { where: {idDevice: idDevice}})
+        return topics.length > 0? res.status(StatusCodes.OK).json(topics) : res.status(StatusCodes.NO_CONTENT).send();
+    }
+
+    async findOne(req: Request, res: Response) {
+        const idTopic = req.params.id;
+        const topics = await TopicModel.findAll( { where: {idTopic: idTopic}});
+        return res.status(StatusCodes.OK).json(topics);
+    }
+
+    async findAll(req: Request, res: Response) {
+        const topics = await TopicModel.findAll();
+        return topics.length > 0? res.status(StatusCodes.OK).json(topics) : res.status(StatusCodes.NO_CONTENT).send();
     }
 
     async update(req: Request, res: Response) {
