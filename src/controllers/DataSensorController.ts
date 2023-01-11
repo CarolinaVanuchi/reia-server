@@ -27,7 +27,8 @@ class DataSensorController {
 
     async findByDevice(req: Request, res: Response) {
         const id = req.params.idDevice;
-        const values = await DeviceModel.findAll( {include: [{model: TopicModel, include: [{model: DataSensorModel}]}], where: {idDevice: id} })
+        // const values = await DeviceModel.findAll( {include: [{model: TopicModel, include: [{model: DataSensorModel}]}], where: {idDevice: id} })
+        const values = await TopicModel.findAll( {include: [{model: DataSensorModel}], where: {idDevice: id} })
         return values.length > 0? res.status(StatusCodes.OK).json(values) : res.status(StatusCodes.NO_CONTENT).send();
     }
 
