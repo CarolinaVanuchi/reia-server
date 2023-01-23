@@ -2,30 +2,25 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { DataSensorModel } from "../database/models/DataSensorModel";
 import { TopicModel } from "../database/models/TopicModel";
-import { DeviceModel } from "../database/models/DeviceModel";
 import { Op } from "sequelize";
 
 class DataSensorController {
 
-    async create(req: Request, res: Response) {
-
+    async create(idTopic: number, value: number) {
         try {
-            const value = req.body.value;
-            const topic = req.body.topic;
-
-
             const dataSensor = await DataSensorModel.create({
                 value: value,
-                idTopic: topic
+                idTopic: idTopic
             });
 
-            return res.status(StatusCodes.CREATED).json(dataSensor);
+            return true;
 
         } catch (error) {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+            console.log(error)
+            return false;
         }
     }
-
+    
     async findByDevice(req: Request, res: Response) {
         const id = req.params.idDevice;
         const dataBegin = new Date(req.params.dataBegin);

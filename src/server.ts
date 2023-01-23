@@ -2,7 +2,7 @@ import express, {json} from "express";
 import { db } from "./database/db";
 import { router } from "./routes/routes";
 import cors from "cors";
-//import MqttServer from "./mqtt/MqttServer";
+import MqttServer from "./mqtt/MqttServer";
 
 const app = express();
 app.use(json());
@@ -26,6 +26,6 @@ app.get('/', (req, res) => {
 app.listen(3000, async () => {
     await db.sync();
     console.log(`Server running ${process.env.PROJECT_NAME}`);
-   // let mqtt = new MqttServer();
+   let mqtt = new MqttServer();
   
 });

@@ -9,18 +9,9 @@ export const TopicModel = db.define('topic', {
         allowNull: false,
         primaryKey: true,
     },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     gpio: {
         type: DataTypes.INTEGER,
         allowNull: false,
-    },
-    gpioInput: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
     },
     topic: {
         type: DataTypes.STRING,
