@@ -27,7 +27,7 @@ class LoginController {
                 secret, { expiresIn: '1d'},
             );
         const id = await UserModel.findOne({ where: { username: username } });
-        return res.status(StatusCodes.OK).json({token: token, id: id['idUser']});
+        return res.status(StatusCodes.OK).json({token: token});
     }
 
 
@@ -44,16 +44,17 @@ class LoginController {
     }
 
     authMiddleware(req: Request, res: Response, next: NextFunction) {
+        console.log(req.headers)
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
         if (!token) return res.status(StatusCodes.UNAUTHORIZED).json(MessagesUtils.DENID);
 
         try {
-
+            
             const secret = process.env.SERET;
             jwt.verify(token, secret);
             next();
-
+            
         } catch(error) {
             return res.status(StatusCodes.UNAUTHORIZED).json(MessagesUtils.DENID);
         }

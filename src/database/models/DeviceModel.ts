@@ -20,10 +20,6 @@ export const DeviceModel = db.define('device', {
     port: {
         type:DataTypes.STRING,
         allowNull: false,
-    },
-    sample: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
     }
 }, {
     underscored: true    

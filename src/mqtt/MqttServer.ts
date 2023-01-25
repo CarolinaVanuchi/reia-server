@@ -31,7 +31,6 @@ export default class MqttServer {
 
         this.onConnect();
         this.onError();
-        this.onPublish();
         this.onSubscriber();
         this.onReceive();
         this.onClose();
@@ -56,10 +55,11 @@ export default class MqttServer {
     }
 
 
-    onPublish(): void {
+    onPublish(topic: string, value: string): void {
+        console.log("################## ON PUBLISH ###############", topic, value);
         const encrypt = new Encrypt();
-        const enc = encrypt.encrypt("10000000");
-        this.client.publish("webserver/sampling", enc, { qos: this.qos }, function (error, call) {
+        const enc = encrypt.encrypt(value);
+        this.client.publish(topic, enc, { qos: this.qos }, function (error, call) {
             if (error) console.log(error);
             if (call) console.log(call);
         });
@@ -68,7 +68,6 @@ export default class MqttServer {
     async onSubscriber(): Promise<void> {
         await this.getTopics();
         const arrayAux = this.topicsValues;
-        console.log(arrayAux)
         this.client.subscribe(arrayAux, { qos: this.qos }, function (message) {
             console.log("onSubscriber", message);
         });
@@ -89,7 +88,6 @@ export default class MqttServer {
 
     async getTopics() {
         const arrayTopics = await TopicModel.findAll();
-
         for (let i = 0; i < arrayTopics.length; i++) {
             this.topicsValues.push(arrayTopics[i]['topic'])
         }

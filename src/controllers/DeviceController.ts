@@ -11,14 +11,12 @@ class DeviceController {
             const name = req.body.name;
             const ip = req.body.ip;
             const port = req.body.port;
-            const sample = req.body.sample;
 
             if (!name) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
             if (!ip) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
             if (!port) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
-            if (!sample) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_SAMPLING);
 
-            const device = await DeviceModel.create({ name, ip, port, sample });
+            const device = await DeviceModel.create({ name, ip, port });
             return res.status(StatusCodes.CREATED).json(device);
 
         } catch (error) {
@@ -39,14 +37,12 @@ class DeviceController {
             const name = req.body.name;
             const ip = req.body.ip;
             const port = req.body.port;
-            const sample = req.body.sample;
 
             if (!name) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_NAME);
             if (!ip) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_IP);
             if (!port) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_PORT);
-            if (!sample) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_SAMPLING);
 
-            const device = await DeviceModel.update({ name, ip, port, sample }, { where: { idDevice: id } });
+            const device = await DeviceModel.update({ name, ip, port }, { where: { idDevice: id } });
 
             return res.status(StatusCodes.OK).json(device);
 

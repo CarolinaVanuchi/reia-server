@@ -4,6 +4,7 @@ import LoginController from "../controllers/LoginController";
 import DeviceController from "../controllers/DeviceController";
 import TopicController from "../controllers/TopicController";
 import DataSensorControlller from "../controllers/DataSensorController";
+import MqttController from "../controllers/MqttController";
 
 const router = express.Router();
 
@@ -31,8 +32,9 @@ router.put("/topic/:id", LoginController.authMiddleware, TopicController.update)
 router.get("/topic", LoginController.authMiddleware, TopicController.findAll);
 router.get("/topic/:id", LoginController.authMiddleware, TopicController.findOne);
 
-// router.post("/data", LoginController.authMiddleware, DataSensorControlller.create);
 router.get("/data/device/:idDevice/:dataBegin/:dataEnd", LoginController.authMiddleware, DataSensorControlller.findByDevice);
 router.get("/data/topic/:idTopic", LoginController.authMiddleware, DataSensorControlller.findByTopic);
+
+router.post("/sample", LoginController.authMiddleware, MqttController.sendSample);
 
 export { router };
