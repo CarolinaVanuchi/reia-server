@@ -22,11 +22,11 @@ export const TopicModel = db.define('topic', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    minValueData: {
+    minInput: {
         type: DataTypes.DOUBLE,
         allowNull: false,
     },
-    maxValueData: {
+    maxInput: {
         type: DataTypes.DOUBLE,
         allowNull: false,
     },

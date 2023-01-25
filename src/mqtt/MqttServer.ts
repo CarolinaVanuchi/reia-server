@@ -5,7 +5,6 @@ import Encrypt from "../crypt/Encrypt";
 import { TopicName } from "../enum/TopicNameEnum";
 import { TopicModel } from "../database/models/TopicModel";
 import DataSensorController from "../controllers/DataSensorController";
-import TopicController from "../controllers/TopicController";
 
 export default class MqttServer {
 
@@ -80,8 +79,7 @@ export default class MqttServer {
             if (arrayAux.includes(topic)) {
                 const decrypt = new Decrypt();
                 const res = decrypt.decrypt(message.toString());
-                const idTopic = await TopicController.findByTopic(topic);
-                DataSensorController.create(Number(idTopic["idTopic"]), Number(res));
+                DataSensorController.create(topic, Number(res));
             }
         });
     }

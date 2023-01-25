@@ -12,8 +12,8 @@ class TopicController {
             const topic = req.body.topic;
             const device = req.body.device;
             const typeData = req.body.typeData;
-            const minValueData = req.body.minValueData;
-            const maxValueData = req.body.maxValueData;
+            const minInput = req.body.minInput;
+            const maxInput = req.body.maxInput;
             const typeOutput = req.body.typeOutput;
             const minOutput = req.body.minOutput;
             const maxOutput = req.body.maxOutput;
@@ -22,21 +22,21 @@ class TopicController {
             if (!gpio) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_GPIO);
             if (!topic) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TOPIC);
             if (!typeData) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TYPE_DATA);
-            if (minValueData == null) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MIN_DATA);
-            if (maxValueData == null) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MAX_DATA);
+            if (minInput == null) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MIN_DATA);
+            if (maxInput == null) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MAX_DATA);
             if (!typeOutput) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_TYPE_OUTPUT);
             if (minOutput == null) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MIN_OUTPUT);
             if (maxOutput == null) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.NULL_MAX_OUTPUT);
 
-            const userExist = await TopicModel.findOne({ where: { topic: topic } });
-            if (userExist) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.EQUAL_TOPIC);
+            const topicExist = await TopicModel.findOne({ where: { topic: topic } });
+            if (topicExist) return res.status(StatusCodes.NOT_ACCEPTABLE).json(MessagesUtils.EQUAL_TOPIC);
 
             const port = await TopicModel.create({
                 gpio: gpio,
                 topic: topic,
                 typeData: typeData,
-                minValueData: minValueData,
-                maxValueData: maxValueData,
+                minInput: minInput,
+                maxInput: maxInput,
                 typeOutput: typeOutput,
                 minOutput: minOutput,
                 maxOutput: maxOutput,
@@ -67,9 +67,9 @@ class TopicController {
         return topics.length > 0 ? res.status(StatusCodes.OK).json(topics) : res.status(StatusCodes.NO_CONTENT).send();
     }
 
-    async findByTopic(topicLabe: string) {
+    async findByTopic(topicLabel: string) {
         try {
-            return await TopicModel.findOne({ where: { topic: topicLabe}})
+            return await TopicModel.findOne({ where: { topic: topicLabel}})
         } catch (error) {
             console.log(error)
             return false;

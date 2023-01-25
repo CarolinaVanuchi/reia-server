@@ -3,13 +3,27 @@ import { StatusCodes } from "http-status-codes";
 import { DataSensorModel } from "../database/models/DataSensorModel";
 import { TopicModel } from "../database/models/TopicModel";
 import { Op } from "sequelize";
+import TopicController from "../controllers/TopicController";
 
 class DataSensorController {
 
-    async create(idTopic: number, value: number) {
+    async create(topic: string, value: number) {
         try {
-            const dataSensor = await DataSensorModel.create({
-                value: value,
+            let data = 0;
+            const values = await TopicController.findByTopic(topic);
+            
+            const idTopic       = values["idTopic"];
+            const minInput      = values["minInput"];
+            const maxInput      = values["maxInput"];
+            const minOutput     = values["minOutput"];
+            const maxOutput     = values["maxOutput"];
+            const typeData      = values["typeData"];
+
+            if (typeData == "Corrente") data = this.calculateByCurrent(maxOutput, value);
+            else this.calculateByVoltage(maxOutput, value);
+            
+            await DataSensorModel.create({
+                value: data,
                 idTopic: idTopic
             });
 
@@ -21,6 +35,17 @@ class DataSensorController {
         }
     }
     
+    calculateByVoltage(maxOutput: number, value: number): number {
+        let realValue = (maxOutput*value/3.32);
+        return parseFloat(realValue.toFixed(2));
+    }
+
+    calculateByCurrent(maxOutput: number, value: number): number {
+        console.log('there')
+        let realValue =  (maxOutput*value)/(3.28-0.656);
+        return parseFloat(realValue.toFixed(2));
+    }
+
     async findByDevice(req: Request, res: Response) {
         const id = req.params.idDevice;
         const dataBegin = new Date(req.params.dataBegin);
