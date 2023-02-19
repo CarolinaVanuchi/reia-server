@@ -55,7 +55,7 @@ class UserController {
 
         return res.status(StatusCodes.NO_CONTENT).send();
     }
-
+    
     async delete(req: Request, res: Response) {
         const { id } = req.params;
         await UserModel.destroy({

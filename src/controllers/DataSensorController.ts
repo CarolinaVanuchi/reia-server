@@ -19,8 +19,8 @@ class DataSensorController {
             const maxOutput     = values["maxOutput"];
             const typeData      = values["typeData"];
 
-            if (typeData == "Corrente") data = this.calculateByCurrent(maxOutput, value);
-            else this.calculateByVoltage(maxOutput, value);
+            if (typeData == "Corrente") data = this.calculateByCurrent(minOutput, maxOutput, value);
+            else data = this.calculateByVoltage(minOutput, maxOutput, value);
             
             await DataSensorModel.create({
                 value: data,
@@ -35,14 +35,15 @@ class DataSensorController {
         }
     }
     
-    calculateByVoltage(maxOutput: number, value: number): number {
-        let realValue = (maxOutput*value/3.32);
+    calculateByVoltage(minOutput: number, maxOutput: number, value: number): number {
+        
+        let realValue = (((value/3.2)*(maxOutput-minOutput)) + minOutput);
         return parseFloat(realValue.toFixed(2));
     }
 
-    calculateByCurrent(maxOutput: number, value: number): number {
-        console.log('there')
-        let realValue =  (maxOutput*value)/(3.28-0.656);
+    calculateByCurrent(minOutput: number, maxOutput: number, value: number): number {
+     
+        const realValue = ( (((value-0.656)/2.624)*(maxOutput-minOutput)) + minOutput);
         return parseFloat(realValue.toFixed(2));
     }
 

@@ -20,7 +20,11 @@ export const UserModel = db.define('user', {
     password: {
         type:DataTypes.STRING,
         allowNull: false,
-    }
+    },
+    token: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
 }, {
     underscored: true    
 });

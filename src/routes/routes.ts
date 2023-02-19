@@ -9,7 +9,8 @@ import MqttController from "../controllers/MqttController";
 const router = express.Router();
 
 router.post("/auth/login", LoginController.login);
-router.get("/auth/login/:id", LoginController.authMiddleware, LoginController.returnInfoUser);
+router.get("/auth/validate/:username", LoginController.validateToken);
+router.get("/auth/login/:id", LoginController.returnInfoUser);
 
 router.post("/device", LoginController.authMiddleware, DeviceController.create);
 router.put("/device/:id", LoginController.authMiddleware, DeviceController.update);

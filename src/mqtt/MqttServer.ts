@@ -2,7 +2,6 @@ import mqtt, { MqttClient, QoS } from "mqtt";
 import Decrypt from "../crypt/Decrypt";
 import * as fs from "fs";
 import Encrypt from "../crypt/Encrypt";
-import { TopicName } from "../enum/TopicNameEnum";
 import { TopicModel } from "../database/models/TopicModel";
 import DataSensorController from "../controllers/DataSensorController";
 
@@ -55,7 +54,6 @@ export default class MqttServer {
 
 
     onPublish(topic: string, value: string): void {
-        console.log("################## ON PUBLISH ###############", topic, value);
         const encrypt = new Encrypt();
         const enc = encrypt.encrypt(value);
         this.client.publish(topic, enc, { qos: this.qos }, function (error, call) {
@@ -73,14 +71,10 @@ export default class MqttServer {
     }
 
     async onReceive(): Promise<void> {
-        await this.getTopics();
-        const arrayAux = this.topicsValues;
-        this.client.on("message", async function (topic, message) { 
-            if (arrayAux.includes(topic)) {
+        this.client.on("message", async function (topic, message) {
                 const decrypt = new Decrypt();
                 const res = decrypt.decrypt(message.toString());
                 DataSensorController.create(topic, Number(res));
-            }
         });
     }
 
